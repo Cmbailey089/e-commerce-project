@@ -45,7 +45,7 @@ router.post('/', (req, res) => {
 
 router.put('/:id', (req, res) => {
   try {
-    const tagData = Tag.update(req.body);
+    const tagData = Tag.update(req.body.id);
     res.status(200).json(tagData);
   } catch (err) {
     res.status(400).json(err);
