@@ -48,12 +48,24 @@ router.post('/', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-  try {
-    const categoryData = Category.update(req.body.id);
-    res.status(200).json(categoryData);
-  } catch (err) {
-    res.status(400).json(err);
-  }
+  Category.update(
+    {
+      id:req.body.id,
+      category_name:req.body.category_name
+    },
+    {
+      where: {
+        id: req.params.id,
+      },
+    }
+  )
+    .then((updatedBook) => {
+      res.json(updatedBook);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.json(err);
+    });
   // update a category by its `id` value
 });
 
