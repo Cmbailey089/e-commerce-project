@@ -6,13 +6,20 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 
 // get all products
 router.get('/', (req, res) => {
-  
+  Product.findAll({include: [{model:Category,Tag}]})
+  .then((bookData) => {
+    res.json(bookData);
+  });
   // find all products
   // be sure to include its associated Category and Tag data
 });
 
 // get one product
 router.get('/:id', (req, res) => {
+  Product.findByPk(req.body.id, {include: [{model:Category,Tag}]})
+  .then((productData) => {
+    res.json(productData);
+  });
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
 });
@@ -58,8 +65,10 @@ router.put('/:id', (req, res) => {
     },
   })
     .then((product) => {
+       
       // find all associated tags from ProductTag
-      return ProductTag.findAll({ where: { product_id: req.params.id } });
+      return ProductTag.findAll({ where: { product_id: req.params.id } })
+      
     })
     .then((productTags) => {
       // get list of current tag_ids
