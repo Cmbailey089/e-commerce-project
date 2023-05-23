@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
    // find one category by its `id` value
-  Tag.findByPk(req.params.id, {include: [{ model: Product}],
+  Category.findByPk(req.params.id, {include: [{ model: Product}],
   })
   .then((categoryData)=>res.status(200).json(categoryData));
  
@@ -24,7 +24,7 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
  Category.create({
-      reader_id: req.body.reader_id,
+     category_id: req.body.category_id,
     }).then((categoryData)=>
     res.status(200).json(categoryData));
   // create a new category

@@ -35,21 +35,22 @@ router.put('/:id', (req, res) => {
       tag_name:req.body.tag_name
     },
     {
-      where:{id: req.body.id,
+      where:{id: req.params.id,
       },
     })
     .then((updatedTag)=>{
-      res.status(200).json(updatedTag);
+      res.status(200).json(updatedTag)
     })
-    res.status(400).json(err);
+    .catch((err)=>res.send(err));
   
   // update a tag's name by its `id` value
 });
 
 router.delete('/:id', (req, res) => {
-  Tag.destroy(req.params.id, {include: [{ model: Product}],
+  Tag.destroy({where:{id: req.body.id}
   })
-  .then((tagData)=>res.status(200).json(tagData));
+  .then((tagData)=>res.status(200).json(tagData))
+  .catch((err)=> res.send(err));
   // delete on tag by its `id` value
 });
 
