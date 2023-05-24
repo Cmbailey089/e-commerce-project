@@ -39,9 +39,7 @@ router.put('/:id', (req, res) => {
       category_name:req.body.category_name
     },
     {
-      where: {
-        id: req.params.id,
-      },
+      where: {id: req.params.id,},
     }
   )
     .then((categoryData) => {
@@ -55,9 +53,20 @@ router.put('/:id', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
- Category.destroy({where: {id: req.params.id,},
-    }).then((categoryData)=>
-    res.status(200).json(categoryData));
+  try {
+    const categoryData = Category.destroy({
+      where: {
+        id: req.params.id
+      }
+    });
+    if (!categoryData) {
+      res.status(404).json({ message: 'No tag found with this id!' });
+      return;
+    }
+    res.status(200).json(categoryData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
   // delete a category by its `id` value
 });
 
