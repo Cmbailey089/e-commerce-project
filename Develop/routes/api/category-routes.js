@@ -23,10 +23,12 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
- Category.create({
-     category_id: req.body.category_id,
-    }).then((categoryData)=>
-    res.status(200).json(categoryData));
+    try {
+    const categoryData = Category.create(req.body);
+    res.status(200).json(categoryData);
+  } catch (err) {
+    res.status(400).json(err);
+  }
   // create a new category
 });
 
